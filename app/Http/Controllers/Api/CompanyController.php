@@ -30,7 +30,7 @@ class CompanyController extends Controller
                 'required',
                 'string',
                 'regex:/^(10|20)\d{9}$/', // starts 10 or 20, then 9 digital numbers. EX: 20123456789
-                new UniqueTinRule(JWTAuth::user()->id)
+                new UniqueTinRule()
             ],
             'direction' => 'required | string',
             'logo' => 'nullable | image',
@@ -73,6 +73,7 @@ class CompanyController extends Controller
                 'nullable',
                 'string',
                 'regex:/^(10|20)\d{9}$/', // starts 10 or 20, then 9 digital numbers. EX: 20123456789
+                new UniqueTinRule($company->id)
             ],
             'direction' => 'nullable | string | min:5',
             'logo' => 'nullable | image',
