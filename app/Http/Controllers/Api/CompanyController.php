@@ -39,7 +39,12 @@ class CompanyController extends Controller
         $data['certificate_path'] = $request->file('certificate')->store('certificatesFolder');
         $data['user_id'] = JWTAuth::user()->id;
 
-        return $data;
+        $company = Company::create($data);
+
+        return response()->json([
+            'message' => 'Company created successfully!',
+            'company' => $company
+        ]);
     }
 
     public function show(Company $company) {
