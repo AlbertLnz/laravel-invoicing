@@ -22,7 +22,7 @@ return new class extends Migration
             // Credentials
             $table->string('root_user');
             $table->string('root_password');
-            $table->string('certificate_path');
+            $table->string('certificate');
 
             // API Credentials
             $table->string('client_id')->nullable();

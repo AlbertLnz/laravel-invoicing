@@ -1,2 +1,4 @@
+// command: php artisan storage:link <-- para vincular la carpeta 'storage' dentro de la carpeta 'public'
+
 *
 !.gitignore

@@ -18,7 +18,23 @@ class CompanyController extends Controller
     }
 
     public function store(Request $request) {
-        //
+        
+        // $certificate = $request->file('certificate');
+        // $certificate->extension();
+        
+        $data = $request->validate([
+            'entity_type' => 'required | string',
+            'tin' => 'required | string',
+            'direction' => 'required | string',
+            'logo_path' => 'nullable | string',
+            'root_user' => 'required | string',
+            'root_password' => 'required | string',
+            'certificate' => 'required | file | mimes:pem,txt', // accept .pem or .txt
+        ]);
+
+        $data['certificate_path'] = $request->file('certificate')->store('certificatesFolder');
+
+        return $data;
     }
 
     public function show(Company $company) {
