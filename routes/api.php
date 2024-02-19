@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,4 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/register', [RegisterController::class, 'register'])->name('api.register');
+Route::post('register', [RegisterController::class, 'register'])->name('api.register');
+Route::post('login', [AuthController::class, 'login'])->name('api.login');
+Route::post('logout', [AuthController::class, 'logout'])->name('api.logout');
+Route::post('refresh', [AuthController::class, 'refresh'])->name('api.refresh');
+Route::post('me', [AuthController::class, 'me'])->name('api.me');
