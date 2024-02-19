@@ -26,13 +26,18 @@ class CompanyController extends Controller
             'entity_type' => 'required | string',
             'tin' => 'required | string',
             'direction' => 'required | string',
-            'logo_path' => 'nullable | string',
+            'logo' => 'nullable | image',
             'root_user' => 'required | string',
             'root_password' => 'required | string',
             'certificate' => 'required | file | mimes:pem,txt', // accept .pem or .txt
         ]);
 
+        if($request->hasFile('logo')) {
+            $data['logo_path'] = $request->file('logo')->store('logosFolder');
+        }
+
         $data['certificate_path'] = $request->file('certificate')->store('certificatesFolder');
+        $data['user_id'] = JWTAuth::user()->id;
 
         return $data;
     }
