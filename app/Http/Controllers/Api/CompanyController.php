@@ -62,8 +62,39 @@ class CompanyController extends Controller
         return response()->json($company, 200);
     }
 
-    public function update(Request $request, Company $company) {
-        //
+    public function update(Request $request, $companyTin) {
+        
+        $userId = JWTAuth::user()->id;
+        $company = Company::where('tin', $companyTin)->where('user_id', $userId)->firstOrFail();
+
+        $data = $request->validate([
+            'entity_type' => 'nullable | string | min:5',
+            'tin' => [
+                'nullable',
+                'string',
+                'regex:/^(10|20)\d{9}$/', // starts 10 or 20, then 9 digital numbers. EX: 20123456789
+            ],
+            'direction' => 'nullable | string | min:5',
+            'logo' => 'nullable | image',
+            'root_user' => 'nullable | string | min:5',
+            'root_password' => 'nullable | string | min:5',
+            'certificate' => 'nullable | file | mimes:pem,txt', // accept .pem or .txt
+        ]);
+
+        if($request->hasFile('logo')) {
+            $data['logo_path'] = $request->file('logo')->store('logosFolder');
+        }
+
+        if($request->hasFile('certificate')) {
+            $data['certificate_path'] = $request->file('logo')->store('certificatesFolder');
+        }
+
+        $company->update($data);
+
+        return response()->json([
+            'message' => 'Company updated!',
+            'company' => $company
+        ], 200);
     }
 
     public function destroy(Company $company) {

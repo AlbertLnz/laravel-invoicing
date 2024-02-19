@@ -17,7 +17,7 @@ class Company extends Model
         'logo_path',
         'root_user',
         'root_password',
-        'certificate',
+        'certificate_path',
         'client_id',
         'client_secret',
         'production',
