@@ -22,4 +22,9 @@ class Company extends Model
         'production',
         'user_id'
     ];
+
+    // Relationship One To Many Inverse
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }
