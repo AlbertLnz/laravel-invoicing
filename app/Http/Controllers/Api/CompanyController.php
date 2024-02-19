@@ -53,8 +53,12 @@ class CompanyController extends Controller
         ]);
     }
 
-    public function show(Company $company) {
-        //
+    public function show($companyTin) {
+        
+        $userId = JWTAuth::user()->id;
+        $company = Company::where('tin', $companyTin)->where('user_id', $userId)->firstOrFail();
+
+        return response()->json($company, 200);
     }
 
     public function update(Request $request, Company $company) {
