@@ -98,7 +98,15 @@ class CompanyController extends Controller
         ], 200);
     }
 
-    public function destroy(Company $company) {
-        //
+    public function destroy($companyTin) {
+        
+        $userId = JWTAuth::user()->id;
+        $company = Company::where('tin', $companyTin)->where('user_id', $userId)->firstOrFail();
+
+        $company->delete();
+
+        return response()->json([
+            'message' => 'Company deleted!'
+        ], 200);
     }
 }
