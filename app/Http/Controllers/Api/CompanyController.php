@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Rules\UniqueTinRule;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -24,7 +25,12 @@ class CompanyController extends Controller
         
         $data = $request->validate([
             'entity_type' => 'required | string',
-            'tin' => 'required | string',
+            'tin' => [
+                'required',
+                'string',
+                'regex:/^(10|20)\d{9}$/', // starts 10 or 20, then 9 digital numbers. EX: 20123456789
+                new UniqueTinRule(JWTAuth::user()->id)
+            ],
             'direction' => 'required | string',
             'logo' => 'nullable | image',
             'root_user' => 'required | string',
