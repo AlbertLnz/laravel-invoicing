@@ -13,9 +13,10 @@ class CompanyController extends Controller
     
     public function index() {
 
-        $user = JWTAuth::user();
-        
-        return $user;
+        $companies = Company::where('user_id', auth()->id())->get(); // === Company::get();
+        // auth()->id() === JWTAuth::user()->id
+
+        return $companies;
     }
 
     public function store(Request $request) {
